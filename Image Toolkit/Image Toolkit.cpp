@@ -86,7 +86,7 @@ Mat cubicScale(int scale, Mat image) {
 	scaledImage = mapBasePixels(scale, image, scaledImage);
 
 	//Logic to construct vertical nodal lines via bicubic interpolation
-	for (int x = scale; x < scaledImage.cols - scale; x++) {						// Cycle through rows of NEW image
+	for (int x = 0; x < scaledImage.cols; x++) {						// Cycle through rows of NEW image
 		for (int y = scale; y < scaledImage.rows - 2 * scale; y++) {		// Cycle through columns of NEW image
 			if (x%scale == 0 and y%scale == 0) {						// If we hit a "node", aka a pixel that maps directly to new image from original
 				q0 = scaledImage.ptr(y - scale, x);						// "Back 2" pnt = behind current pnt
@@ -106,7 +106,7 @@ Mat cubicScale(int scale, Mat image) {
 	q0 = q1 = q2 = q3 = image.ptr(0, 0);	// Create pointers to be used for interpolation. q0 is the known pnt 2 "behind" the pixel position
 
 	//Logic to fill in horizontal points between vertical nodal lines via linear interpolation
-	for (int y = scale; y < scaledImage.rows; y++) {
+	for (int y = 0; y < scaledImage.rows; y++) {
 		for (int x = scale; x < scaledImage.cols - 2 * scale; x++) {
 			if (x%scale == 0) {								// If along a vertical node line
 				q0 = scaledImage.ptr(y, x - scale);			// "Back 2" pnt = behind current pnt
@@ -122,6 +122,47 @@ Mat cubicScale(int scale, Mat image) {
 			}
 		}
 	}
+	// Cubic interoplation cant be done around edge points because we dont have enough information to get the slope here. 
+	// Instead, we can linearly interpolate these points. 
+
+	q0 = q1 = q2 = q3 = image.ptr(0, 0); //Reset first two interpolation pointers.
+	
+	// Linear interpolate end points, sweep left to right
+	for (int y = 0; y < scaledImage.rows; y++) {
+		q0 = scaledImage.ptr(y, 0);
+		q1 = scaledImage.ptr(y, scale);
+		q2 = scaledImage.ptr(y, scaledImage.cols-2*scale);
+		q3 = scaledImage.ptr(y, scaledImage.cols-scale);
+		for (int x = 1; x < scale; x++) {
+			p = scaledImage.ptr(y, x); // Left side of image
+			for (int i = 0; i < 3; i++) {
+				p[i] = linInterp(scale, x, q0[i], q1[i]);
+			}
+			p = scaledImage.ptr(y, (x+scaledImage.cols-2*scale)); // Right side of image
+			for (int i = 0; i < 3; i++) {
+				p[i] = linInterp(scale, x, q2[i], q3[i]);
+			}
+		}
+	}
+
+	for (int x = 0; x < scaledImage.cols; x++) {
+		q0 = scaledImage.ptr(0, x);
+		q1 = scaledImage.ptr(scale, x);
+		q2 = scaledImage.ptr(scaledImage.rows - 2 * scale, x);
+		q3 = scaledImage.ptr(scaledImage.rows - scale, x);
+		for (int y = 1; y < scale; y++) {
+			p = scaledImage.ptr(y, x);
+			for (int i = 0; i < 3; i++) {
+				p[i] = linInterp(scale, y, q0[i], q1[i]);
+			}
+			p = scaledImage.ptr((y + scaledImage.rows - 2 * scale), x);
+			for (int i = 0; i < 3; i++) {
+				p[i] = linInterp(scale, y, q2[i], q3[i]);
+			}
+		}
+	}
+
+
 	return scaledImage; // Return the output image
 }
 //Rotate Image 90 degrees clockwise

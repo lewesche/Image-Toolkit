@@ -1,5 +1,4 @@
-﻿  pch.cpp
-  Image Toolkit.cpp
-c:\users\asus\source\repos\image toolkit\image toolkit\image toolkit.cpp(206): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\asus\source\repos\image toolkit\image toolkit\image toolkit.cpp(207): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+﻿  Image Toolkit.cpp
+c:\users\asus\source\repos\image toolkit\image toolkit\image toolkit.cpp(247): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\asus\source\repos\image toolkit\image toolkit\image toolkit.cpp(248): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
   Image Toolkit.vcxproj -> C:\Users\ASUS\source\repos\Image Toolkit\x64\Debug\Image Toolkit.exe
