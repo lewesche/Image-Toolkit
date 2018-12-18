@@ -16,7 +16,7 @@ int main()
 	int scale;
 	int selection;
 	char input;
-	bool keepGoin = true;
+	bool keepGoin{ true };
 
 	Mat image;										// Container for input images
 	Mat imageTransformed;							// Container for transformed images

@@ -31,6 +31,8 @@ Mat mapBasePixels(int scale, Mat imageIn, Mat imageOut) {
 // Linearly interpolate between two points
 int linInterp(int scale, int position, int leftValue, int rightValue) {
 	int pixelValue;
+
+	position = static_cast<double>(position);	// Cast position variable as a double to prevent bad integer rounding 
 	pixelValue = ((scale - position % scale)*leftValue + (position % scale) * rightValue) / scale;
 
 	return pixelValue;
@@ -40,8 +42,11 @@ int linInterp(int scale, int position, int leftValue, int rightValue) {
 int cubicInterp(int scale, int position, int farLeftValue, int leftValue, int rightValue, int farRightValue) {
 	int value;
 
-	float posFlt = position % scale;
-	value = leftValue + 0.5 * posFlt / scale * (rightValue - farLeftValue + posFlt / scale * (2.0*farLeftValue - 5.0*leftValue + 4.0*rightValue - farRightValue + posFlt / scale * (3.0*(leftValue - rightValue) + farRightValue - farLeftValue)));	//Linearly interpolate between points in front and behind
+	position = static_cast<double>(position);	// Cast position variable as a double to prevent bad integer rounding 
+	value = leftValue + 0.5 * (position % scale) / scale * (rightValue - farLeftValue + (position % scale) / scale *
+		(2.0*farLeftValue - 5.0*leftValue + 4.0*rightValue - farRightValue + (position % scale) / scale *
+		(3.0*(leftValue - rightValue) + farRightValue - farLeftValue)));	//Linearly interpolate between points in front and behind
+
 	if (value > 255) {
 		value = 255;
 	}
