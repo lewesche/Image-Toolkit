@@ -55,8 +55,8 @@ int selectTransform() {
 	cout << "(1) Sparse" << endl;
 	cout << "(2) Linear" << endl;
 	cout << "(3) Cubic" << endl;
-	cout << "(4) Rotate Clockwise" << endl;
-	cout << "(5) Rotate Counter-Clockwise" << endl;
+	cout << "(4) Rotate 90 deg" << endl;
+	cout << "(5) Save Previous Image" << endl;
 	cin >> selection;
 
 	return selection;
@@ -75,10 +75,25 @@ Mat runTransform(Mat image, int selection) {
 		imageTransformed = cubicScale(image);
 	}
 	else if (selection == 4) {
-		imageTransformed = rotate90CW(image);
+		int rotationSelection;
+		cout << "Rotate clockwise or counter-clockwise?" << endl;
+		cout << "(1) Clockwise" << endl;
+		cout << "(2) Counter-clockwise" << endl;
+		cin >> rotationSelection;
+		if (rotationSelection == 1) {
+			imageTransformed = rotate90CW(image);
+		}
+		else if (rotationSelection == 2) {
+			imageTransformed = rotate90CCW(image);
+		}
 	}
 	else if (selection == 5) {
-		imageTransformed = rotate90CCW(image);
+		imageTransformed = image;
+		string imageName;
+		cout << "Name of image file?" << endl;
+		cin.ignore();
+		getline(cin, imageName);
+		imwrite((imageName + ".png"), image);
 	}
 
 	return imageTransformed;

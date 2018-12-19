@@ -18,7 +18,7 @@ int cubicInterp(int scale, int position, int farLeftValue, int leftValue, int ri
 int getScaleFactor() {
 	int scale;
 
-	cout << "Scale Factor?" << endl;
+	cout << "Scale Factor? Must be an int larger than 1." << endl;
 	cin >> scale;
 
 	return scale;
