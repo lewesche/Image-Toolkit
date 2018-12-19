@@ -1,5 +1,2 @@
-﻿  Interpolate.cpp
-c:\users\asus\source\repos\image toolkit\image toolkit\interpolate.cpp(35): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\asus\source\repos\image toolkit\image toolkit\interpolate.cpp(45): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\asus\source\repos\image toolkit\image toolkit\interpolate.cpp(46): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+﻿  Image Toolkit.cpp
   Image Toolkit.vcxproj -> C:\Users\ASUS\source\repos\Image Toolkit\x64\Debug\Image Toolkit.exe

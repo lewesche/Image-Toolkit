@@ -11,12 +11,84 @@ using namespace std::this_thread;
 using namespace std::chrono_literals;
 
 
+int selectImage(bool firstRun) {
+	int selection;
+
+	cout << "Select image..." << endl;
+	if (firstRun == false) {
+		cout << "(0) Previous image" << endl;
+	}
+	cout << "(1) Dude" << endl;
+	cout << "(2) Lady" << endl;
+	cout << "(3) Dog" << endl;
+	cout << "(4) Cat" << endl;
+	cout << "(5) Bird" << endl;
+	cout << "(6) Another Image" << endl;
+	cin >> selection;
+
+	return selection;
+}
+
+Mat pullImage(int selection, Mat imageBank[6]) {
+	Mat image;
+
+	if (selection < 6) {
+		image = imageBank[selection];
+	} 
+	else if (selection = 6) {
+		string imagePath;
+		cout << "enter the path to the image..." << endl; 
+		cin.ignore();
+		getline(cin, imagePath); 
+		Mat tempImage = imread(imagePath); 
+		imwrite("temp.png", tempImage);
+		image = imread("temp.png");
+	}
+
+	return image;
+}
+
+int selectTransform() {
+	int selection;
+
+	cout << "Select transform..." << endl;
+	cout << "(1) Sparse" << endl;
+	cout << "(2) Linear" << endl;
+	cout << "(3) Cubic" << endl;
+	cout << "(4) Rotate Clockwise" << endl;
+	cout << "(5) Rotate Counter-Clockwise" << endl;
+	cin >> selection;
+
+	return selection;
+}
+
+Mat runTransform(Mat image, int selection) {
+	Mat imageTransformed;
+	
+	if (selection == 1) {
+		imageTransformed = simpleScale(image);
+	}
+	else if (selection == 2) {
+		imageTransformed = linearScale(image);
+	}
+	else if (selection == 3) {
+		imageTransformed = cubicScale(image);
+	}
+	else if (selection == 4) {
+		imageTransformed = rotate90CW(image);
+	}
+	else if (selection == 5) {
+		imageTransformed = rotate90CCW(image);
+	}
+
+	return imageTransformed;
+}
+
 int main()
 {
-	int scale;
-	int selection;
-	char input;
+	char selection;
 	bool keepGoin{ true };
+	bool firstRun = true;
 
 	Mat image;										// Container for input images
 	Mat imageTransformed;							// Container for transformed images
@@ -25,75 +97,39 @@ int main()
 	Mat dog = imread("dog.png");					// Load a colorful pup
 	Mat cat = imread("cat.png");					// Load cat photo
 	Mat bird = imread("bird.png");					// Load bird photo
-	Mat imageBank[6] = { imageTransformed, dude, lady, dog, cat, bird };
+	Mat imageBank[6] = { imageTransformed, dude, lady, dog, cat, bird }; // Container for set of images
 
 
-	cout << "Select image..." << endl;
-	cout << "(1) Dude" << endl;
-	cout << "(2) Lady" << endl;
-	std::cout << "(3) Dog" << endl;
-	std::cout << "(4) Cat" << endl;
-	std::cout << "(5) Bird" << endl;
-	cin >> selection;
+	selection = selectImage(firstRun);								// Select an image
+	image = pullImage(selection, imageBank);
 
-	image = imageBank[selection];
-
+	firstRun = false;												// Flip boolean to allow for previous image to be selected on next cycle
 
 	while (keepGoin == true) {
-		cout << "Select transform..." << endl;
-		cout << "(1) Sparse" << endl;
-		cout << "(2) Linear" << endl;
-		cout << "(3) Cubic" << endl;
-		cout << "(4) Rotate Clockwise" << endl;
-		cout << "(5) Rotate Counter-Clockwise" << endl;
-		cin >> selection;
 
-		if (selection == 1 || selection == 2 || selection == 3) {
-			cout << "Scale Factor?" << endl;
-			cin >> scale;
-		}
+		selection = selectTransform();								// Select a transform operation
 
+		imageTransformed = runTransform(image, selection);			// Transform Image
 
-		if (selection == 1) {
-			imageTransformed = simpleScale(scale, image);
-		}
-		else if (selection == 2) {
-			imageTransformed = linearScale(scale, image);
-		}
-		else if (selection == 3) {
-			imageTransformed = cubicScale(scale, image);
-		}
-		else if (selection == 4) {
-			imageTransformed = rotate90CW(image);
-		}
-		else if (selection == 5) {
-			imageTransformed = rotate90CCW(image);
-		}
+		imageBank[0] = imageTransformed;							// Store the transformed image
+		imshow("Input Image", image);								// Show the original image
+		imshow("Output Image", imageTransformed);					// Show the transformed image
 
-		imageBank[0] = imageTransformed;
-		imshow("Input Image", image);
-		imshow("Output Image", imageTransformed);
-
-		cout << "Press any key to close and continue..." << endl;
+		cout << "Press any key to close and continue..." << endl;	// Prompt user to close image windows
 		waitKey(0);
-		destroyAllWindows();
-		cout << "More transforms? (y/n)" << endl;
-		cin >> input;
-		if (input == 'n') {
-			keepGoin = false;
-		}
-		else {
-			cout << "Select image..." << endl;
-			cout << "(0) Previous image" << endl;
-			cout << "(1) Dude" << endl;
-			cout << "(2) Lady" << endl;
-			cout << "(3) Dog" << endl;
-			cout << "(4) Cat" << endl;
-			cout << "(5) Bird" << endl;
-			cin >> selection;
-		}
-		image = imageBank[selection];
+		destroyAllWindows();										// Close Windows
+		cout << "More transforms? (y/n)" << endl;					// Ask if user wants to continue
+		cin >> selection;												// Get input from the user
+		if (selection == 'n') {											// If user inputs 'n'...
+			keepGoin = false;										// Flip boolean to false to break while loop
+		}															
+		else {														// If the user inputs anything else...
+			selection = selectImage(firstRun);	
+			image = pullImage(selection, imageBank);				// Select a new image (or previous)
+		}												
+										
 	}
-	waitKey(0);
+
 	return 0;
 }
+

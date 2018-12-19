@@ -12,9 +12,9 @@ using namespace cv;
 using namespace std::this_thread;
 using namespace std::chrono_literals;
 
-Mat simpleScale(int scale, Mat image);
-Mat linearScale(int scale, Mat image);
-Mat cubicScale(int scale, Mat image);
+Mat simpleScale(Mat image);
+Mat linearScale(Mat image);
+Mat cubicScale(Mat image);
 Mat rotate90CW(Mat imageIn);
 Mat rotate90CCW(Mat imageIn);
 

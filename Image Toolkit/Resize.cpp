@@ -14,9 +14,20 @@ Mat mapBasePixels(int scale, Mat imageIn, Mat imageOut);
 int linInterp(int scale, int position, int leftValue, int rightValue);
 int cubicInterp(int scale, int position, int farLeftValue, int leftValue, int rightValue, int farRightValue);
 
+//Prompts user for a scale factor
+int getScaleFactor() {
+	int scale;
+
+	cout << "Scale Factor?" << endl;
+	cin >> scale;
+
+	return scale;
+}
 
 //Scale image without interpolation, leaving blank space between pixels. 
-Mat simpleScale(int scale, Mat image) {
+Mat simpleScale(Mat image) {
+	int scale = getScaleFactor();
+	
 	Mat scaledImage(Size(image.cols*scale, image.rows*scale), CV_8UC3);
 
 	scaledImage = mapBasePixels(scale, image, scaledImage);
@@ -24,7 +35,9 @@ Mat simpleScale(int scale, Mat image) {
 	return scaledImage;
 }
 //Scale image via linear interpolating between known pixels
-Mat linearScale(int scale, Mat image) {
+Mat linearScale(Mat image) {
+	int scale = getScaleFactor();
+	
 	Mat scaledImage(Size(image.cols*scale, image.rows*scale), CV_8UC3); // Create scaled image to output
 
 	unsigned char * q0 = image.ptr(0, 0);	// Create pointers to be used for interpolation. q0 is the known point "behind" the pixel position
@@ -70,7 +83,9 @@ Mat linearScale(int scale, Mat image) {
 	return scaledImage; // Return the output image
 }
 //Scale image via cubic interpolating between known pixels
-Mat cubicScale(int scale, Mat image) {
+Mat cubicScale(Mat image) {
+	int scale = getScaleFactor();
+	
 	Mat scaledImage(Size(image.cols*scale, image.rows*scale), CV_8UC3); // Create scaled image to output
 
 	unsigned char * q0 = image.ptr(0, 0);	// Create pointers to be used for interpolation. q0 is the known pnt 2 "behind" the pixel position
