@@ -38,5 +38,8 @@
     <ClCompile Include="Interpolate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Stegz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

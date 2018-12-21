@@ -10,7 +10,6 @@ using namespace cv;
 using namespace std::this_thread;
 using namespace std::chrono_literals;
 
-
 int selectImage(bool firstRun) {
 	int selection;
 
@@ -52,10 +51,10 @@ int selectTransform() {
 	int selection;
 
 	cout << "Select transform..." << endl;
-	cout << "(1) Sparse" << endl;
-	cout << "(2) Linear" << endl;
-	cout << "(3) Cubic" << endl;
-	cout << "(4) Rotate 90 deg" << endl;
+	cout << "(1) Resize" << endl;
+	cout << "(2) Rotate 90 deg" << endl;
+	cout << "(3) Encode Steganographic message" << endl;
+	cout << "(4) Read Steganographic message" << endl;
 	cout << "(5) Save Previous Image" << endl;
 	cin >> selection;
 
@@ -66,26 +65,43 @@ Mat runTransform(Mat image, int selection) {
 	Mat imageTransformed;
 	
 	if (selection == 1) {
-		imageTransformed = simpleScale(image);
+		int subSelection;
+		cout << "Select interpolation method..." << endl;
+		cout << "(1) No added pixels" << endl;
+		cout << "(2) Bi-linear interpolation" << endl;
+		cout << "(3) Bi-cubic interpolation" << endl;
+		cin >> subSelection;
+		if (subSelection == 1) {
+			imageTransformed = simpleScale(image);
+		}
+		else if (subSelection == 2) {
+			imageTransformed = linearScale(image);
+		}
+		else if (subSelection == 3) {
+			imageTransformed = cubicScale(image);
+		}
 	}
 	else if (selection == 2) {
-		imageTransformed = linearScale(image);
-	}
-	else if (selection == 3) {
-		imageTransformed = cubicScale(image);
-	}
-	else if (selection == 4) {
-		int rotationSelection;
+		int subSelection;
 		cout << "Rotate clockwise or counter-clockwise?" << endl;
 		cout << "(1) Clockwise" << endl;
 		cout << "(2) Counter-clockwise" << endl;
-		cin >> rotationSelection;
-		if (rotationSelection == 1) {
+		cin >> subSelection;
+		if (subSelection == 1) {
 			imageTransformed = rotate90CW(image);
 		}
-		else if (rotationSelection == 2) {
-			imageTransformed = rotate90CCW(image);
+		else if (subSelection == 2) {
+			imageTransformed = rotate90CCW(image);	
 		}
+	}
+	else if (selection == 3) {
+		imageTransformed = encodeTxt(image);
+
+	}
+	else if (selection == 4) {
+		string text = decodeTxt(image);
+		cout << text << endl;
+		imageTransformed = image;
 	}
 	else if (selection == 5) {
 		imageTransformed = image;

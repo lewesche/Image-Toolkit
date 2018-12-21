@@ -171,6 +171,7 @@
     <ClCompile Include="Interpolate.cpp" />
     <ClCompile Include="Resize.cpp" />
     <ClCompile Include="Rotate.cpp" />
+    <ClCompile Include="Stegz.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
