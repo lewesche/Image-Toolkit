@@ -1,2 +1,4 @@
-﻿  Image Toolkit.cpp
+﻿  Stegz.cpp
+c:\users\asus\source\repos\image toolkit\image toolkit\stegz.cpp(36): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\asus\source\repos\image toolkit\image toolkit\stegz.cpp(138): warning C4715: 'decodeTxt': not all control paths return a value
   Image Toolkit.vcxproj -> C:\Users\ASUS\source\repos\Image Toolkit\x64\Debug\Image Toolkit.exe

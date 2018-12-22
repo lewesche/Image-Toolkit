@@ -15,7 +15,7 @@ Mat encodeTxt(Mat imageIn) {
 	unsigned char * p;									// Creat pointer for pixels
 
 	const unsigned char bit0 = 0b0000'0001;	// modifier for bit 0, least signifigant bit
-	const unsigned char bit1 = 0b0000'0001;	// modifier for bit 1
+	const unsigned char bit1 = 0b0000'0010;	// modifier for bit 1
 	const unsigned char bit2 = 0b0000'0100; // modifier for bit 2
 	const unsigned char bit3 = 0b0000'1000; // etc
 	const unsigned char bit4 = 0b0001'0000; 
@@ -45,7 +45,7 @@ Mat encodeTxt(Mat imageIn) {
 
 	for (int i = 0; i < textLength; i++) {
 		for (int bitCount = 0; bitCount < 8; bitCount++) {
-			p = transformedImage.ptr(y, x);		// Select a pixel
+			p = transformedImage.ptr(y, x);			// Select a pixel
 			cout << "Character: " << text[i];
 			cout << ", bit: " << bitCount;
 			cout << ", x position: " << x;
@@ -80,7 +80,7 @@ String decodeTxt(Mat imageIn) {
 	unsigned char * p;									// Creat pointer for pixels
 
 	const unsigned char bit0 = 0b0000'0001;	// modifier for bit 0, least signifigant bit
-	const unsigned char bit1 = 0b0000'0001;	// modifier for bit 1
+	const unsigned char bit1 = 0b0000'0010;	// modifier for bit 1
 	const unsigned char bit2 = 0b0000'0100; // modifier for bit 2
 	const unsigned char bit3 = 0b0000'1000; // etc
 	const unsigned char bit4 = 0b0001'0000;
