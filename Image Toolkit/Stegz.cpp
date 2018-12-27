@@ -10,9 +10,11 @@ using namespace cv;
 using namespace std::this_thread;
 using namespace std::chrono_literals;
 
-Mat encodeTxt(Mat imageIn) {
-	Mat transformedImage = imageIn;						// Container for new image
-	unsigned char * p;									// Creat pointer for pixels
+using image_t = Mat; // Define typedef for opencv image format
+
+image_t encodeTxt(image_t imageIn) {
+	image_t transformedImage = imageIn;						// Container for new image
+	unsigned char *p;										// Creat pointer for pixels
 
 	const unsigned char bit0 = 0b0000'0001;	// modifier for bit 0, least signifigant bit
 	const unsigned char bit1 = 0b0000'0010;	// modifier for bit 1
@@ -27,11 +29,9 @@ Mat encodeTxt(Mat imageIn) {
 
 	string text;	// Container for input text to encode
 	cout << "Enter a string of text to enconde..." << endl;
-	cin.ignore();
 	getline(cin, text); // Grab text from the user
 	char endReturn = 13;
 	text += endReturn;
-	cout << text << endl;
 
 	int textLength = text.length();	// Determine the number of characters
 	
@@ -46,16 +46,16 @@ Mat encodeTxt(Mat imageIn) {
 	for (int i = 0; i < textLength; i++) {
 		for (int bitCount = 0; bitCount < 8; bitCount++) {
 			p = transformedImage.ptr(y, x);			// Select a pixel
-			cout << "Character: " << text[i];
-			cout << ", bit: " << bitCount;
-			cout << ", x position: " << x;
-			cout << ", y position: " << y;
+			//cout << "Character: " << text[i];
+			//cout << ", bit: " << bitCount;
+			//cout << ", x position: " << x;
+			//cout << ", y position: " << y;
 			if (bits[bitCount] & text[i]) {
-				 cout << ", bit:" << 1 << endl;
+				 //cout << ", bit:" << 1 << endl;
 				p[color] |= bit0;
 			}
 			if (!(bits[bitCount] & text[i])) {
-				 cout << ", bit:" << 0 << endl;
+				 //cout << ", bit:" << 0 << endl;
 				p[color] &= ~bit0;
 			}
 			x++;
@@ -76,8 +76,8 @@ Mat encodeTxt(Mat imageIn) {
 	return transformedImage;
 }
 
-String decodeTxt(Mat imageIn) {
-	unsigned char * p;									// Creat pointer for pixels
+String decodeTxt(image_t imageIn) {
+	unsigned char *p;									// Creat pointer for pixels
 
 	const unsigned char bit0 = 0b0000'0001;	// modifier for bit 0, least signifigant bit
 	const unsigned char bit1 = 0b0000'0010;	// modifier for bit 1
@@ -112,8 +112,6 @@ String decodeTxt(Mat imageIn) {
 			if (!(bit0 & p[color])) {
 				letter &= ~bits[bitCount];
 			}
-
-
 			x++;
 			if (x >= imageWidth) {
 				x = 0;
