@@ -13,7 +13,7 @@ using namespace std::chrono_literals;
 using image_t = Mat; // Define typedef for opencv image format
 
 // Map all pixels in an image to a new position, no interpolation. Leaves blank space between pixels. 
-image_t mapBasePixels(int scale, image_t imageIn) {
+image_t mapBasePixels(int scale, image_t &imageIn) {
 
 	unsigned char *q; // Create pointer for pixels in output image
 	unsigned char *p; // Create pointer for pixels in input image

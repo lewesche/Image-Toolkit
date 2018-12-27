@@ -12,7 +12,7 @@ using namespace std::chrono_literals;
 
 using image_t = Mat; // Define typedef for opencv image format
 
-image_t encodeTxt(image_t imageIn) {
+int encodeTxt(image_t &imageIn) {
 	image_t transformedImage = imageIn;						// Container for new image
 	unsigned char *p;										// Creat pointer for pixels
 
@@ -68,15 +68,21 @@ image_t encodeTxt(image_t imageIn) {
 			}
 			if (color >= 3) {
 				cout << "Out of image space!" << endl;
-				return transformedImage;
+				imshow("Input Image", imageIn);					// Show the transformed image
+				imageIn = transformedImage;
+				imshow("Output Image", imageIn);					// Show the transformed image
+				return 1;
 			}
 		}
 	}
 
-	return transformedImage;
+	imshow("Input Image", imageIn);					// Show the transformed image
+	imageIn = transformedImage;
+	imshow("Output Image", imageIn);					// Show the transformed image
+	return 0;
 }
 
-String decodeTxt(image_t imageIn) {
+String decodeTxt(image_t &imageIn) {
 	unsigned char *p;									// Creat pointer for pixels
 
 	const unsigned char bit0 = 0b0000'0001;	// modifier for bit 0, least signifigant bit
@@ -126,6 +132,7 @@ String decodeTxt(image_t imageIn) {
 			}
 		}
 		if (static_cast<int>(letter) == 13) {
+			imshow("Decoded Image", imageIn);					// Show the decoded image
 			return text;
 		}
 		else {

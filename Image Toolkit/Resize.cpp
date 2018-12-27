@@ -12,7 +12,7 @@ using namespace std::chrono_literals;
 
 using image_t = Mat; // Define typedef for opencv image format
 
-image_t mapBasePixels(int scale, image_t imageIn);
+image_t mapBasePixels(int scale, image_t &imageIn);
 int linInterp(int scale, int position, int leftValue, int rightValue); 
 int cubicInterp(int scale, int position, int farLeftValue, int leftValue, int rightValue, int farRightValue);
 
@@ -43,18 +43,21 @@ int getScaleFactor() {
 }
 
 //Scale image without interpolation, leaving blank space between pixels. 
-image_t simpleScale(image_t image) {
+int simpleScale(image_t &image) {
 	int scale = getScaleFactor(); // Ask user for positive integer scale factor
 	
 	image_t scaledImage(Size(image.cols*scale, image.rows*scale), CV_8UC3); // Create container for scaled image. 
 
 	scaledImage = mapBasePixels(scale, image);
-
-	return scaledImage;
+	
+	imshow("Input Image", image);					// Show the original image
+	image = scaledImage;
+	imshow("Output Image", image);					// Show the transformed image
+	return 0;
 }
 
 //Scale image via linear interpolating between known pixels
-image_t linearScale(image_t image) {
+int linearScale(image_t &image) {
 	int scale = getScaleFactor(); // Ask user for scale factor
 	
 	image_t scaledImage(Size(image.cols*scale, image.rows*scale), CV_8UC3); // Create container for expanded image output
@@ -100,11 +103,14 @@ image_t linearScale(image_t image) {
 			}
 		}
 	}
-	return scaledImage; // Return the output image
+	imshow("Input Image", image);					// Show the original image
+	image = scaledImage;
+	imshow("Output Image", image);					// Show the transformed image
+	return 0; // Return the output image
 }
 
 //Scale image via cubic interpolating between known pixels
-image_t cubicScale(image_t image) {
+int cubicScale(image_t &image) {
 	int scale = getScaleFactor();
 	
 	image_t scaledImage(Size(image.cols*scale, image.rows*scale), CV_8UC3); // Create scaled image to output
@@ -194,6 +200,8 @@ image_t cubicScale(image_t image) {
 		}
 	}
 
-
-	return scaledImage; // Return the output image
+	imshow("Input Image", image);					// Show the original image
+	image = scaledImage;
+	imshow("Output Image", image);					// Show the transformed image
+	return 0; // Return the output image
 }

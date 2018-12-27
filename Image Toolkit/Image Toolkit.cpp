@@ -12,7 +12,6 @@ using namespace std::chrono_literals;
 
 using image_t = Mat; // Define typedef for opencv image format
 
-
 int getUserInputInt(int min, int max) {
 	int input;
 
@@ -56,8 +55,8 @@ int selectImage() {
 	return selection;
 }
 
-image_t loadImage(int selection, image_t imageBank[6]) {
-	image_t image;
+image_t* loadImage(int selection, image_t *imageBank[]) {
+	image_t *imagePtr;
 
 	while (1) {
 		if (selection == 6) {
@@ -67,14 +66,14 @@ image_t loadImage(int selection, image_t imageBank[6]) {
 			getline(cin, imagePath);
 			image_t tempImage = imread(imagePath);
 			imwrite("temp.png", tempImage);
-			image = imread("temp.png");
+			imagePtr = &imread("temp.png");
 
-			return image;
+			return imagePtr;
 		}
 		else {
-			image = imageBank[selection];
+			imagePtr = imageBank[selection];
 
-			return image;
+			return imagePtr;
 		}
 	}
 }
@@ -94,9 +93,7 @@ int selectTransform() {
 	return selection;
 }
 
-image_t runTransform(image_t image, int selection) {
-	image_t imageTransformed;
-	
+int runTransform(image_t &image, int selection) {	
 	while (1) {
 		switch (selection) {
 			case 1: 
@@ -106,26 +103,21 @@ image_t runTransform(image_t image, int selection) {
 				cout << "(2) Bi-linear interpolation" << endl;
 				cout << "(3) Bi-cubic interpolation" << endl;
 				int subSelection = getUserInputInt(1, 3);
-
 				switch (subSelection) {
 					case 1: 
 					{
-						imageTransformed = simpleScale(image);
-						imshow("Output Image", imageTransformed);					// Show the transformed image
-						return imageTransformed;
+						simpleScale(image);
+						return 1;
 					}
 					case 2:
 					{
-						imageTransformed = linearScale(image);
-						imshow("Output Image", imageTransformed);					// Show the transformed image
-						return imageTransformed;
-						
+						linearScale(image);
+						return 1;	
 					}
 					case 3:
 					{
-						imageTransformed = cubicScale(image);
-						imshow("Output Image", imageTransformed);					// Show the transformed image
-						return imageTransformed;
+						cubicScale(image);
+						return 1;
 					}
 				}
 			}
@@ -138,39 +130,35 @@ image_t runTransform(image_t image, int selection) {
 				switch (subSelection) 
 				{
 					case 1: {
-						imageTransformed = rotate90CW(image);
-						imshow("Output Image", imageTransformed);					// Show the transformed image
-						return imageTransformed;
+						rotate90CW(image);
+						return 1;
 					}
 					case 2: {
-						imageTransformed = rotate90CCW(image);
-						imshow("Output Image", imageTransformed);					// Show the transformed image
-						return imageTransformed;
+						rotate90CCW(image);
+						return 1;
 					}
 				}
 			}
 			case 3: 
 			{
-				imageTransformed = encodeTxt(image);
-				imshow("Output Image", imageTransformed);					// Show the transformed image
-				return imageTransformed;
+				encodeTxt(image);
+				return 1;
 			}
 			case 4: 
 			{
 				string text = decodeTxt(image);
-				cout << "Hidden text: " << endl << text << endl;
-				imageTransformed = image;
-				return imageTransformed;
+				cout << "Hidden text: " << endl << endl << text << endl << endl;
+				return 1;
 			}
 			case 5: 
 			{
-				imageTransformed = image;
 				string imageName;
 				cout << "Name of image file?" << endl;
 				cin.ignore();
 				getline(cin, imageName);
 				imwrite((imageName + ".png"), image);
-				return imageTransformed;
+				imshow("Saved Image", image);					// Show the saved image
+				return 1;
 			}
 		}
 	}
@@ -178,28 +166,19 @@ image_t runTransform(image_t image, int selection) {
 
 int main()
 {
-	image_t image;										// Container for input images
-	image_t imageTransformed;							// Container for transformed image
+	image_t *imagePtr;									// Pointer for input images
 	image_t dude = imread("dude.png");					// Load simple black and white "dude" image
 	image_t lady = imread("lady.png");					// Load a more complex black and white "lady" image
 	image_t dog = imread("dog.png");					// Load a colorful pup
 	image_t cat = imread("cat.png");					// Load cat photo
 	image_t bird = imread("bird.png");					// Load bird photo
-	image_t imageBank[] { imageTransformed, dude, lady, dog, cat, bird }; // Container for set of images
+	image_t *imagePtrBank[]{ 0, &dude, &lady, &dog, &cat, &bird }; // Container for set of images
 
-	image_t *imageBankPtr[] { &imageTransformed, &dude, &lady, &dog, &cat, &bird };
-	cout << imageBankPtr[0] << endl;
-	cout << imageBankPtr[1] << endl;
+	imagePtr = loadImage(selectImage(), imagePtrBank);						// Select and load image
+	imagePtrBank[0] = imagePtr;
 
-	image = loadImage(selectImage(), imageBank);						// Select and load image
-
-	while(1) {
-										
-		imageTransformed = runTransform(image, selectTransform());		// Select and run action
-		imshow("Input Image", image);									// Show the original image
-		imshow("pointer pic", *imageBankPtr[1]);
-
-		imageBank[0] = imageTransformed;								// Store the transformed image under previous image and 
+	while(1) {		
+		runTransform(*imagePtr, selectTransform());		// Select and run action
 
 		cout << "Press any key to close and continue..." << endl;		// Prompt user to close image windows
 		waitKey(0);
@@ -212,7 +191,7 @@ int main()
 			return 0;													// End the program
 		}															
 		else {															// If the user inputs anything else...
-			image = loadImage(selectImage(), imageBank);					// Select a new image (or previous)
+			imagePtr = loadImage(selectImage(), imagePtrBank);					// Select a new image (or previous)
 		}												
 										
 	}
