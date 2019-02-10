@@ -1,3 +1,5 @@
-﻿  Image Toolkit.cpp
+﻿  EdgeDetection.cpp
+  Image Toolkit.cpp
+  Generating Code...
 c:\users\asus\source\repos\image toolkit\image toolkit\image toolkit.cpp(71): warning C4172: returning address of local variable or temporary
   Image Toolkit.vcxproj -> C:\Users\ASUS\source\repos\Image Toolkit\x64\Debug\Image Toolkit.exe

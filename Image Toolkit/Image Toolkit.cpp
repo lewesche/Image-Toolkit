@@ -86,9 +86,11 @@ int selectTransform() {
 	cout << "(2) Rotate 90 deg" << endl;
 	cout << "(3) Encode Steganographic message" << endl;
 	cout << "(4) Read Steganographic message" << endl;
-	cout << "(5) Save Previous Image" << endl;
+	cout << "(5) Gaussian Blur" << endl;
+	cout << "(6) Edge Detection" << endl;
+	cout << "(7) Save Image" << endl;
 
-	selection = getUserInputInt(1, 5);
+	selection = getUserInputInt(1, 7);
 
 	return selection;
 }
@@ -150,7 +152,17 @@ int runTransform(image_t &image, int selection) {
 				cout << "Hidden text: " << endl << endl << text << endl << endl;
 				return 1;
 			}
-			case 5: 
+			case 5:
+			{
+				gaussianBlur(image);
+				return 1;
+			}
+			case 6:
+			{
+				edgeDetection(image);
+				return 1;
+			}
+			case 7: 
 			{
 				string imageName;
 				cout << "Name of image file?" << endl;
@@ -192,6 +204,7 @@ int main()
 		}															
 		else {															// If the user inputs anything else...
 			imagePtr = loadImage(selectImage(), imagePtrBank);					// Select a new image (or previous)
+			imagePtrBank[0] = imagePtr;
 		}												
 										
 	}

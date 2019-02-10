@@ -21,5 +21,7 @@ int rotate90CW(image_t &imageIn);
 int rotate90CCW(image_t &imageIn);
 int encodeTxt(image_t &imageIn);
 string decodeTxt(image_t &imageIn);
+int gaussianBlur(image_t &imageIn);
+int edgeDetection(image_t &imageIn);
 
 #endif

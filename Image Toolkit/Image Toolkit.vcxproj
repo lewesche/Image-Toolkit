@@ -161,6 +161,8 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Blur.cpp" />
+    <ClCompile Include="EdgeDetection.cpp" />
     <ClCompile Include="Image Toolkit.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
