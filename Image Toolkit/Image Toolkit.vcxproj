@@ -161,7 +161,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Blur.cpp" />
+    <ClCompile Include="Contrast.cpp" />
     <ClCompile Include="EdgeDetection.cpp" />
     <ClCompile Include="Image Toolkit.cpp" />
     <ClCompile Include="pch.cpp">

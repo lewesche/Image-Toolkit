@@ -23,5 +23,6 @@ int encodeTxt(image_t &imageIn);
 string decodeTxt(image_t &imageIn);
 int gaussianBlur(image_t &imageIn);
 int edgeDetection(image_t &imageIn);
+int setImageContrast(image_t &imageIn);
 
 #endif

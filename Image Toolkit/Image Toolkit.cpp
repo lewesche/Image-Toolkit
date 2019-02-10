@@ -88,9 +88,10 @@ int selectTransform() {
 	cout << "(4) Read Steganographic message" << endl;
 	cout << "(5) Gaussian Blur" << endl;
 	cout << "(6) Edge Detection" << endl;
-	cout << "(7) Save Image" << endl;
+	cout << "(7) Set Contrast" << endl;
+	cout << "(8) Save Image" << endl;
 
-	selection = getUserInputInt(1, 7);
+	selection = getUserInputInt(1, 8);
 
 	return selection;
 }
@@ -162,7 +163,12 @@ int runTransform(image_t &image, int selection) {
 				edgeDetection(image);
 				return 1;
 			}
-			case 7: 
+			case 7:
+			{
+				setImageContrast(image);
+				return 1;
+			}
+			case 8: 
 			{
 				string imageName;
 				cout << "Name of image file?" << endl;

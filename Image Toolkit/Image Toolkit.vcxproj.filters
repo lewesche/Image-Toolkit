@@ -44,7 +44,7 @@
     <ClCompile Include="EdgeDetection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Blur.cpp">
+    <ClCompile Include="Contrast.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
