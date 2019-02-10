@@ -7,4 +7,4 @@ This kit is just a collection of functions I threw together in a console program
 - Gaussial blurring
 - Edge detection
 - An algorithm for encoding steganographic text messages within images
-- An algorithm for finding and reading steganographic messages back
+- An algorithm for finding and reading steganographic messages from an image
