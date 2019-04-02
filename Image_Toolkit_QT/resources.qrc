@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/new/resource">
+        <file>Default_Img/bird.png</file>
+        <file>Default_Img/cat.png</file>
+        <file>Default_Img/dog.png</file>
+        <file>Default_Img/dude.png</file>
+        <file>Default_Img/lady.png</file>
+    </qresource>
+</RCC>
