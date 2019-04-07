@@ -27,11 +27,21 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    scale.cpp
+    scale.cpp \
+    contrast.cpp \
+    convolution.cpp \
+    blur.cpp \
+    edgeDetection.cpp \
+    rotation.cpp
 
 HEADERS += \
         mainwindow.h \
-    scale.h
+    scale.h \
+    contrast.h \
+    convolution.h \
+    blur.h \
+    edgeDetection.h \
+    rotation.h
 
 FORMS += \
         mainwindow.ui

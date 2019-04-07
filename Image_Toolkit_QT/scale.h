@@ -1,9 +1,10 @@
 #ifndef SCALE_H
 #define SCALE_H
 
-#include <QMainWindow>
+#include <QImage>
+#include "mainwindow.h"
 
-void scaleImg();
+void scaleImg(QImage *img, double scale, MainWindow::InterpolationFlags::Algo flags);
 
 void xInterpolateLinear(int backPosition, int forwardPosition, int y, QImage &transformedImg);
 

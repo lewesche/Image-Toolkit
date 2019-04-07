@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include <QLabel>
+
 namespace Ui {
 class MainWindow;
 }
@@ -17,6 +19,13 @@ public:
 
     std::vector<QString> ImgDirectories;
 
+    struct InterpolationFlags{
+        enum Algo{
+            LINEAR    = 0,
+            CUBIC     = 1
+        };
+    };
+
 private slots:
 
     void on_comboBox_img_activated(int index);
@@ -26,6 +35,10 @@ private slots:
     void on_lineEdit_scale_returnPressed();
 
     void on_comboBox_scale_method_currentIndexChanged();
+
+    void on_lineEdit_rotate_returnPressed();
+
+    void on_horizontalSlider_rotate_valueChanged(int value);
 
     void on_lineEdit_blur_returnPressed();
 
@@ -37,17 +50,12 @@ private slots:
 
     void on_lineEdit_contrast_returnPressed();
 
+
 private:
+
     Ui::MainWindow *ui;
 
-    QImage *img;
-
-    struct InterpolationFlags{
-        enum Algo{
-            LINEAR    = 0,
-            CUBIC     = 1
-        };
-    };
+    QImage *img = nullptr;
 
     InterpolationFlags::Algo InterpFlag;
 
@@ -57,29 +65,15 @@ private:
 
     void updateImg();
 
-    void scaleImg();
+    void scaleHandler();
 
-    void xInterpolateLinear(int backPosition, int forwardPosition, int y, QImage &transformedImg);
+    void rotateHandler();
 
-    void yInterpolateLinear(int backPosition, int forwardPosition, int x, QImage &transformedImg);
+    void contrastHandler();
 
-    QColor linearInterpolate(QRgb backPixel, QRgb frontPixel, int d, int p);
+    void blurHandler();
 
-    void xInterpolateCubic(int back2Position, int backPosition, int forwardPosition, int forward2Position, int y, QImage &transformedImg);
-
-    void yInterpolateCubic(int back2Position, int backPosition, int forwardPosition, int forward2Position, int y, QImage &transformedImg);
-
-    QColor cubicInterpolate(int (&backSlope)[3], QRgb backPixel, QRgb frontPixel, int (&frontSlope)[3], int d, int p);
-
-    void contrastImg();
-
-    QColor contrastPixel(QRgb pixel, double contrast);
-
-    QColor convolution(QImage &transformedImg, int (&kernel)[3][3], int x, int y, int scl);
-
-    void gaussianBlur();
-
-    void edgeDetection();
+    void edgeDetectionHandler();
 
 };
 
